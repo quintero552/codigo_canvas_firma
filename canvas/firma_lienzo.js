@@ -70,8 +70,9 @@ function dibujandoLienzo(color, xi, yi, xf, yf){
 }
 
 function dibujandoConMouse(evento) {
+    dibujandoLienzo("blue", x, y, x, y);
     x = evento.offsetX;
-    y = evento.offesetY;
+    y = evento.offsetY;
     mousee = true;
     console.log("Dibujadno Con el evento mousedown", evento)
 }
@@ -82,8 +83,9 @@ function dibujandoConMouseUP(evento) {
         x = 0;
         y = 0;
         mousee = false;
+        console.log("Dibujadno Con el evento mouseup", evento)
     }
-    console.log("Dibujadno Con el evento mouseup", evento)
+    
 }
 
 function dibujandoConMouseMove(evento) {
@@ -99,18 +101,54 @@ function dibujandoConMouseMove(evento) {
 */
 // Evento tactil con el TouchMOVE
 
-document.addEventListener("touchmove" , dibujandoConTouch);
-document.addEventListener("touchend" , dibujandoConTouchEnd);
-document.addEventListener("touchstar" , dibujandoConTouchStar);
+marco.addEventListener("touchstart" , dibujandoConTouchStart);
+marco.addEventListener("touchmove", dibujandoConTouch);
+marco.addEventListener("touchend" , dibujandoConTouchEnd);
 
-function dibujandoConTouch(evento) {
-    console.log("ESTOY DIBUJADNO CON MANO", evento);
+// creamos las variables x e y para que comience en 0
+x = 0;
+y = 0;
+var tic = false; // asinamos una variable tic que comenzara en false
+
+function dibujandoLienzo(color, xi, yi, xf, yf, lienzo){
+    lienzo.beginPath();
+    lienzo.strokeStyle = color;
+    lienzo.moveTo(xi, yi);
+    lienzo.lineTo(xf, yf);
+    lienzo.lineWidth=1;
+    lienzo.stroke();
+    lienzo.closePath();
 }
 
+// funcion del evento START//
+function dibujandoConTouchStart(evento) {
+    var touch = evento.touches[0]; // Obtén el primer toque (pueden haber más en multitouch)
+    var rect = marco.getBoundingClientRect(); // Obtén el rectángulo del lienzo
+    x = touch.clientX - rect.left;
+    y = touch.clientY - rect.top;
+    dibujandoLienzo("red", x, y, x, y, lienzo);
+    tic = true;
+    console.log("Start", evento);
+}
+
+// funcion del evento MOVIMIENTO//
+function dibujandoConTouch(evento) { 
+    if (tic) {
+        var touch = evento.touches[0];        
+        var rect = marco.getBoundingClientRect(); // Obtén el rectángulo del lienzo
+        var offsetX = touch.clientX - rect.left;
+        var offsetY = touch.clientY - rect.top;
+        dibujandoLienzo("red", x, y, offsetX, offsetY, lienzo);
+        x = offsetX;
+        y = offsetY;
+        tic = true;
+        console.log("MOVE", evento) 
+    }    
+    
+}
+
+// funcion del evento FINAL//
 function dibujandoConTouchEnd(evento) {
-    console.log("ESTOY finalizando TouchEnd", evento);
-}
-
-function dibujandoConTouchStar(evento) {
-    console.log("ESTOY DIBUJADNO TouchSTAR", evento);
+    tic = false;
+    console.log("End", evento);
 }
