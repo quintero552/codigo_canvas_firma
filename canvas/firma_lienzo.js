@@ -1,9 +1,11 @@
 var marco = document.getElementById("marquito");
 var lienzo = marco.getContext("2d");
-/*
+/*****************************************************IBUJAR CON TECLAS*********************** */
+// varibale donde comienza EL PUTO DE PARTIDA ES LA MITAD DEL CANVAS QUE ES 250
 var x = 250;
 var y = 250;
 
+// dibujamos el lienzo
 function dibujandoLienzo(color, xi, yi, xf, yf){
     lienzo.beginPath();
     lienzo.strokeStyle = color;
@@ -48,9 +50,11 @@ function dibujandoConTeclas(evento) {
         x = x - 10;
     }
 }
-*/
-// Funciones para pintar por mouse.
+
+
+/*********************************************DIBUJAR CON MOUSE******************************************************* */
 /*
+// Funciones para pintar por mouse.
 marco.addEventListener("mousedown", dibujandoConMouse);
 marco.addEventListener("mouseup", dibujandoConMouseUP);
 marco.addEventListener("mousemove", dibujandoConMouseMove);
@@ -99,6 +103,10 @@ function dibujandoConMouseMove(evento) {
     
 }
 */
+
+/*********************************************DIBUJAR CON TOUCH******************************************************* */
+
+/*
 // Evento tactil con el TouchMOVE
 
 marco.addEventListener("touchstart" , dibujandoConTouchStart);
@@ -151,4 +159,4 @@ function dibujandoConTouch(evento) {
 function dibujandoConTouchEnd(evento) {
     tic = false;
     console.log("End", evento);
-}
+}*/
